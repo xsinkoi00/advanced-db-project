@@ -78,6 +78,8 @@ tasks.named<JavaExec>("run") {
   // Pass all system properties to the application and the start scripts (overwrite previously defined defaults if any)
   systemProperties(System.getProperties().mapKeys { it.key as String })
   classpath = sourceSets["main"].runtimeClasspath
+  // Run from src/dist so App.java's relative "./carN.gif" paths resolve to the bundled images
+  workingDir = file("src/dist")
 }
 
 tasks.withType<Test> {
