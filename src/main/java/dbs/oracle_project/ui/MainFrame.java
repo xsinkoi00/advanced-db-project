@@ -32,6 +32,7 @@ public class MainFrame extends JFrame {
   private final JLabel statusLabel = new JLabel(" ");
   private final JLabel selectionLabel = new JLabel("No facility selected");
   private final JButton renameButton = new JButton("Rename...");
+  private final JButton imagesButton = new JButton("Manage images...");
 
   public MainFrame() {
     super("CampusAtlas");
@@ -52,15 +53,18 @@ public class MainFrame extends JFrame {
       if (f == null) {
         selectionLabel.setText("No facility selected");
         renameButton.setEnabled(false);
+        imagesButton.setEnabled(false);
       } else {
         selectionLabel.setText("<html>Selected: <b>" + escape(f.getName())
             + "</b><br>Category: " + f.getCategory().label()
             + "<br>ID: " + f.getId() + "</html>");
         renameButton.setEnabled(true);
+        imagesButton.setEnabled(true);
       }
     });
 
     renameButton.setEnabled(false);
+    imagesButton.setEnabled(false);
     setSize(1280, 820);
     setLocationRelativeTo(null);
   }
@@ -165,10 +169,20 @@ public class MainFrame extends JFrame {
     p.add(renameButton, c);
 
     c.gridy++;
+    imagesButton.addActionListener(e -> onManageImages());
+    p.add(imagesButton, c);
+
+    c.gridy++;
     c.weighty = 1;
     c.fill = java.awt.GridBagConstraints.BOTH;
     p.add(Box.createVerticalGlue(), c);
     return p;
+  }
+
+  private void onManageImages() {
+    if (mapPanel.getSelected() == null) return;
+    ImageManagerDialog d = new ImageManagerDialog(this, mapPanel.getSelected());
+    d.setVisible(true);
   }
 
   private JPanel buildStatusBar() {
