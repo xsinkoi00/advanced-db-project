@@ -83,6 +83,11 @@ public class MainFrame extends JFrame {
     fileMenu.addSeparator();
     fileMenu.add(exit);
 
+    JMenu viewMenu = new JMenu("View");
+    JMenuItem spatial = new JMenuItem("Spatial queries...");
+    spatial.addActionListener(e -> openSpatialQueries());
+    viewMenu.add(spatial);
+
     JMenu helpMenu = new JMenu("Help");
     JMenuItem helpItem = new JMenuItem("Help");
     helpItem.addActionListener(e -> new HelpWindow(this).setVisible(true));
@@ -94,8 +99,24 @@ public class MainFrame extends JFrame {
     helpMenu.add(aboutItem);
 
     bar.add(fileMenu);
+    bar.add(viewMenu);
     bar.add(helpMenu);
     return bar;
+  }
+
+  private SpatialQueryDialog spatialQueryDialog;
+
+  private void openSpatialQueries() {
+    if (!ConnectionManager.isConfigured()) {
+      JOptionPane.showMessageDialog(this, "Connect first.", "CampusAtlas", JOptionPane.WARNING_MESSAGE);
+      return;
+    }
+    if (spatialQueryDialog == null) {
+      spatialQueryDialog = new SpatialQueryDialog(this, mapPanel);
+    }
+    spatialQueryDialog.refreshFacilityCombos();
+    spatialQueryDialog.setVisible(true);
+    spatialQueryDialog.toFront();
   }
 
   private JToolBar buildToolBar() {

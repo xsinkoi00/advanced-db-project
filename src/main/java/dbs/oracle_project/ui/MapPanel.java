@@ -39,6 +39,7 @@ public class MapPanel extends JComponent {
 
   private final FacilityDAO dao = new FacilityDAO();
   private final List<Facility> facilities = new ArrayList<>();
+  private final java.util.Set<String> highlightedKeys = new java.util.HashSet<>();
 
   private Mode mode = Mode.SELECT;
   private FacilityCategory drawCategory;
@@ -107,6 +108,27 @@ public class MapPanel extends JComponent {
     repaint();
   }
 
+  /** Highlight these facilities with a halo on the next repaint. */
+  public void setHighlighted(java.util.Collection<Facility> fs) {
+    highlightedKeys.clear();
+    if (fs != null) for (Facility f : fs) highlightedKeys.add(keyOf(f));
+    repaint();
+  }
+
+  public void clearHighlighted() {
+    highlightedKeys.clear();
+    repaint();
+  }
+
+  /** Give back the loaded facilities so query panels can offer them in combos. */
+  public java.util.List<Facility> getFacilitiesSnapshot() {
+    return new ArrayList<>(facilities);
+  }
+
+  private static String keyOf(Facility f) {
+    return f.getCategory().code() + ":" + f.getId();
+  }
+
   public void deleteSelected() {
     if (selected == null) return;
     int ans = JOptionPane.showConfirmDialog(this,
@@ -135,7 +157,7 @@ public class MapPanel extends JComponent {
     drawGrid(g2);
 
     for (Facility f : facilities) {
-      drawFacility(g2, f, f == selected);
+      drawFacility(g2, f, f == selected, highlightedKeys.contains(keyOf(f)));
     }
 
     drawInProgress(g2);
@@ -158,18 +180,32 @@ public class MapPanel extends JComponent {
         (int) Math.round(1000 * scale), (int) Math.round(1000 * scale));
   }
 
-  private void drawFacility(Graphics2D g2, Facility f, boolean highlight) {
+  private void drawFacility(Graphics2D g2, Facility f, boolean selectedNow, boolean queryHit) {
     double[] c = f.getCoordinates();
     if (c.length < 4) return;
     FacilityCategory cat = f.getCategory();
+    boolean highlight = selectedNow;
     if (cat.geometryKind() == GeometryKind.POLYGON) {
       Polygon p = toScreenPolygon(c);
+      if (queryHit) {
+        g2.setColor(new Color(255, 230, 80, 180));
+        g2.setStroke(new BasicStroke(6f));
+        g2.drawPolygon(p);
+      }
       g2.setColor(withAlpha(cat.drawColor(), highlight ? 220 : 170));
       g2.fillPolygon(p);
       g2.setColor(highlight ? Color.RED : cat.drawColor().darker());
       g2.setStroke(new BasicStroke(highlight ? 2.5f : 1.3f));
       g2.drawPolygon(p);
     } else {
+      if (queryHit) {
+        g2.setColor(new Color(255, 230, 80, 180));
+        g2.setStroke(new BasicStroke(7f));
+        for (int i = 0; i < c.length - 2; i += 2) {
+          g2.drawLine(worldToScreenX(c[i]), worldToScreenY(c[i + 1]),
+              worldToScreenX(c[i + 2]), worldToScreenY(c[i + 3]));
+        }
+      }
       g2.setColor(highlight ? Color.RED : cat.drawColor());
       g2.setStroke(new BasicStroke(highlight ? 3.5f : 2.2f));
       for (int i = 0; i < c.length - 2; i += 2) {
