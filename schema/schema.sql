@@ -1,10 +1,5 @@
 -- CampusAtlas — database schema
--- Phase 1 deliverable, due 2026-11-01.
---
--- Target: Oracle 18c (local XE and campus EE).
--- Run as the project user (locally: cardb @ XEPDB1).
---
--- Per the assignment, ORA-00942 ("table or view does not exist") on the DROP
+-- Target: Oracle 18c
 -- statements below is expected and allowed on the first run.
 
 ------------------------------------------------------------
