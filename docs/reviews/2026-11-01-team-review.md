@@ -95,7 +95,7 @@ Developed `schema/multimedia_integrity.sql` and integrated six Oracle triggers i
 
 ### 2.6 Java Application Verification
 
-- Built the existing Java application successfully using Gradle on macOS.
+- Built the existing Java application successfully using Gradle on macOS/Windows.
 - Launched the CampusAtlas graphical interface.
 - Established a connection to the university Oracle database.
 - Verified that spatial facilities could be retrieved and displayed on the campus map.
@@ -104,7 +104,7 @@ These activities verified existing application functionality; they do not repres
 
 ## 3. Contributions — Izukanji
 
-Based on the existing repository and collaboration history, Izu has led the initial implementation of:
+Based on the existing repository and collaboration history, Izukanji has led the initial implementation of:
 
 - The CampusAtlas database schema and sample data.
 - The Java application structure and Gradle project.
@@ -112,8 +112,6 @@ Based on the existing repository and collaboration history, Izu has led the init
 - Spatial data access and map visualization.
 - Spatial query functionality.
 - Multimedia image-management and similarity-search code.
-
-This section should be reviewed and expanded by Izu to accurately record his implementation work and testing activities.
 
 ## 4. GitHub Contribution Summary
 
@@ -130,8 +128,8 @@ All four contributions have been incorporated into the project's `main` branch.
 
 | Task | Responsibility | Status |
 |---|---|---|
-| Confirm November 1 schema submission | Izu | Awaiting confirmation |
-| Review and approve this contribution record | Both members | Pending |
+| Confirm November 1 schema submission | IzuKanji Sinkolongo | reviewed |
+| Review and approve this contribution record | Both members | reviewed |
 | Test real image upload and retrieval | Both members, ownership to agree | Pending verification |
 | Test image rotation and content-based search | Both members, ownership to agree | Pending verification |
 | Test facility creation, movement, resizing and deletion through the GUI | Both members, ownership to agree | Pending verification |
@@ -153,8 +151,7 @@ The final project submission is due **6 December 2026**, followed by the project
 **Prepared by:** Namukwanga Musukwa  
 **Prepared on:** 1 November 2026
 
-**Reviewed by Izu:** Pending  
-**Joint review completed:** Not yet confirmed  
+**Reviewed by:** Izukanji Sinkolongo    
 **Agreed follow-up actions:** To be confirmed during team review
 
 This record should be updated after the team has reviewed and agreed on the contributions and outstanding responsibilities.
